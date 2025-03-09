@@ -3,23 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Management Dashboard</title>
+  <title>Employee Management System Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+    header, footer {
+      padding: 20px;
+      text-align: center;
+      background-color: lightskyblue;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
+    main {
+      padding: 10px;
+    }
+    #employeeContainer {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .employeeCard {
+      display: inline-grid;
+      text-align: center;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      width: 20%;
+      overflow: clip;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Employee Dashboard</h1>
-    <p>Welcome to our employee management system.</p>
-  </header>
-
+  <header><h3>Coding Challenge 13: Employee Management System Dashboard</h3></header>
   <main>
-    <div id="employeeContainer">
-      <!-- Employee cards will be dynamically added here -->
-    </div>
+    <div id="employeeContainer"></div>
   </main>
-
-  <footer>
-    <p>&copy; 2025 Company Name. All rights reserved.</p>
-  </footer>
+  <footer>Divya Joshi Corp</footer>
   <script src="cc_13.js"></script>
 </body>
 </html>

@@ -2,32 +2,71 @@
 let cnt = 0; //Ensure that each card has a unique id
 
 function createElement(name, position) {
-    const employeeContainer = document.getElementById("employeeContainer") //this is the container where the cards will be appended
-    let card = document.createElement("div"); //this is the employee card that will be appended to the container
+    const employeeContainer = document.getElementById("employeeContainer"); //container for cards
+    let card = document.createElement("div"); //employee card element
 
-    card.setAttribute("class", "employeeCard"); //where i set the attribute class to employee
-    card.setAttribute(`id", 'employee${cnt}`); //set an id for each card
+    card.setAttribute("class", "employeeCard"); //set class to employeeCard (camelCase)
+    card.setAttribute("id", `employee${cnt}`); //set a unique id using backticks
     card.innerHTML = `<h3>${name}</h3><p>${position}</p>`;
     
-     // Create the "Remove" button
-  let deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Remove";
+    // Create the "Remove" button
+    let deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Remove";
 
-  // Attach event listener to the "Remove" button to remove its parent card
-  deleteBtn.addEventListener("click", (event) => {
-    // Remove the card using removeChild
-    employeeContainer.removeChild(card);
-    // Prevent the click event from bubbling up to the container
-    event.stopPropagation();
-  });
+    // Attach event listener to the "Remove" button to remove its parent card
+    deleteBtn.addEventListener("click", (event) => {
+        // Remove the card using removeChild
+        employeeContainer.removeChild(card);
+        // Prevent the click event from bubbling up to the container
+        event.stopPropagation();
+    });
 
-  // Append the Remove button to the card
-  card.appendChild(deleteBtn);
+    // Append the Remove button to the card
+    card.appendChild(deleteBtn);
 
-  // Append the card to the employeeContainer
-  employeeContainer.appendChild(card);
+    // -------------------- Task 5: Inline Editing --------------------
+    // Define static elements for employee name and position
+    const employeeName = card.querySelector('h3');
+    const employeePosition = card.querySelector('p');
 
-  cnt++; // Increment counter for unique id where i put name header and position for employee
+    // Attach a double-click event listener for inline editing
+    card.addEventListener('dblclick', function() {
+        // Prevent multiple editing instances if an input already exists
+        if (card.querySelector('input')) return;
+
+        // Create input fields and a Save button
+        const nameInput = document.createElement('input');
+        const positionInput = document.createElement('input');
+        const saveButton = document.createElement('button');
+
+        // Prepopulate inputs with the existing name and position
+        nameInput.value = employeeName.textContent;
+        positionInput.value = employeePosition.textContent;
+        saveButton.textContent = 'Save';
+
+        // Replace static text with input fields
+        card.replaceChild(nameInput, employeeName);
+        card.replaceChild(positionInput, employeePosition);
+        card.appendChild(saveButton);
+
+        // Save button functionality: update the static elements and revert inputs
+        saveButton.onclick = function() {
+            // Update the original elements with new values
+            employeeName.textContent = nameInput.value;
+            employeePosition.textContent = positionInput.value;
+
+            // Revert back to static text by replacing the inputs with the updated elements
+            card.replaceChild(employeeName, nameInput);
+            card.replaceChild(employeePosition, positionInput);
+            card.removeChild(saveButton);
+        }
+    });
+    // ------------------ End Task 5 ------------------
+
+    // Append the card to the employeeContainer
+    employeeContainer.appendChild(card);
+
+    cnt++; // Increment counter for unique id
 }
 
 //Test Cases for Task 2
@@ -37,8 +76,8 @@ createElement("Jim Doe", "Data Analyst");
 
 //Task 3: Converting NodeLists to Arrays for Bulk Updates
 function updateEmployeeCards() {
-    // Select all elements with the "employee-card" class
-    const employeeCards = document.querySelectorAll('.employee-card');
+    // Select all elements with the "employeeCard" class
+    const employeeCards = document.querySelectorAll('.employeeCard');
     
     // Convert NodeList to array and update each card's style
     Array.from(employeeCards).forEach(card => {
@@ -46,15 +85,18 @@ function updateEmployeeCards() {
       card.style.backgroundColor = 'pink';
       card.style.margin = '10px';
     });
-  }
+}
   
-  // Run the bulk update function to apply style changes to all cards
-  updateEmployeeCards();
+// Run the bulk update function to apply style changes to all cards
+updateEmployeeCards();
 
-  //Task 4: Implementing Removal of Employee Cards with Event Bubbling (part of it is in Task 2)
-  // Attach a click event listener on the parent container
+//Task 4: Implementing Removal of Employee Cards with Event Bubbling (part of it is in Task 2)
+// Attach a click event listener on the parent container
 const employeeContainer = document.getElementById("employeeContainer");
 employeeContainer.addEventListener("click", (event) => {
-  // This will log when any card is clicked (except when a remove button stops propagation)
-  console.log(`Employee card clicked: ${event.target.closest('.employee-card')?.id || 'unknown'}`);
+    const card = event.target.closest('.employeeCard');
+    if (card) {
+      // Display an alert pop-up with the card's id when the card is clicked
+      alert(`Employee card clicked: ${card.id}`);
+    }
 });
