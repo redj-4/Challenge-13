@@ -14,3 +14,19 @@ function createElement(name, position) {
 createElement("John Doe", "Software Engineer");
 createElement("Jane Doe", "Product Manager");
 createElement("Jim Doe", "Data Analyst");
+
+//Task 3: Converting NodeLists to Arrays for Bulk Updates
+function updateEmployeeCards() {
+    // Select all elements with the "employee-card" class
+    const employeeCards = document.querySelectorAll('.employee-card');
+    
+    // Convert NodeList to array and update each card's style
+    Array.from(employeeCards).forEach(card => {
+      card.style.border = '1px solid black';
+      card.style.backgroundColor = 'pink';
+      card.style.margin = '10px';
+    });
+  }
+  
+  // Run the bulk update function to apply style changes to all cards
+  updateEmployeeCards();
