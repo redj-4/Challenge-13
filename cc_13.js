@@ -82,9 +82,9 @@ function createElement(name, position) {
 }
 
 //Test Cases for Task 2
-createElement("John Doe", "Software Engineer");
-createElement("Jane Doe", "Product Manager");
-createElement("Jim Doe", "Data Analyst");
+createElement("Carl Baskins", "Software Engineer");
+createElement("Jon Jones", "Product Manager");
+createElement("Tim Duncan", "Data Analyst");
 
 //Task 3: Converting NodeLists to Arrays for Bulk Updates
 function updateEmployeeCards() {
