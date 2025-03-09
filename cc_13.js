@@ -25,42 +25,54 @@ function createElement(name, position) {
     card.appendChild(deleteBtn);
 
     // -------------------- Task 5: Inline Editing --------------------
-    // Define static elements for employee name and position
-    const employeeName = card.querySelector('h3');
-    const employeePosition = card.querySelector('p');
+    // Create an "Edit" button
+  let editBtn = document.createElement("button");
+  editBtn.textContent = "Edit";
+  card.appendChild(editBtn);
 
-    // Attach a double-click event listener for inline editing
-    card.addEventListener('dblclick', function() {
-        // Prevent multiple editing instances if an input already exists
-        if (card.querySelector('input')) return;
+  // Grab references to the existing name and position elements
+  const employeeName = card.querySelector("h3");
+  const employeePosition = card.querySelector("p");
 
-        // Create input fields and a Save button
-        const nameInput = document.createElement('input');
-        const positionInput = document.createElement('input');
-        const saveButton = document.createElement('button');
+  // Add click event to enable editing
+  editBtn.addEventListener("click", (event) => {
+    // Prevent the click from triggering the container's click handler
+    event.stopPropagation();
 
-        // Prepopulate inputs with the existing name and position
-        nameInput.value = employeeName.textContent;
-        positionInput.value = employeePosition.textContent;
-        saveButton.textContent = 'Save';
+    // If we're already editing (input fields exist), do nothing
+    if (card.querySelector("input")) return;
 
-        // Replace static text with input fields
-        card.replaceChild(nameInput, employeeName);
-        card.replaceChild(positionInput, employeePosition);
-        card.appendChild(saveButton);
+    // Create input fields and a Save button
+    const nameInput = document.createElement("input");
+    nameInput.value = employeeName.textContent;
 
-        // Save button functionality: update the static elements and revert inputs
-        saveButton.onclick = function() {
-            // Update the original elements with new values
-            employeeName.textContent = nameInput.value;
-            employeePosition.textContent = positionInput.value;
+    const positionInput = document.createElement("input");
+    positionInput.value = employeePosition.textContent;
 
-            // Revert back to static text by replacing the inputs with the updated elements
-            card.replaceChild(employeeName, nameInput);
-            card.replaceChild(employeePosition, positionInput);
-            card.removeChild(saveButton);
-        }
+    const saveButton = document.createElement("button");
+    saveButton.textContent = "Save";
+
+    // Swap out the static text for input fields
+    card.replaceChild(nameInput, employeeName);
+    card.replaceChild(positionInput, employeePosition);
+
+    // Add the Save button at the end of the card (just before the Remove button)
+    card.insertBefore(saveButton, deleteBtn);
+
+    // Save button event
+    saveButton.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent container click event
+
+      // Update the static elements with the new input values
+      employeeName.textContent = nameInput.value;
+      employeePosition.textContent = positionInput.value;
+
+      // Swap back to static text
+      card.replaceChild(employeeName, nameInput);
+      card.replaceChild(employeePosition, positionInput);
+      card.removeChild(saveButton); // Remove the save button
     });
+  });
     // ------------------ End Task 5 ------------------
 
     // Append the card to the employeeContainer
